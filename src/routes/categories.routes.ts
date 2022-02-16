@@ -8,9 +8,20 @@ const categoriesRepository = new CategoriesRepository();
 categoriesRoutes.post('/', (request, response) => {
   const { name, description } = request.body;
 
+  const categoryExists = categoriesRepository.findCategoryByName(name);
+
+  if (categoryExists)
+    return response.json({ message: 'Esta categoria ja existe' });
+
   categoriesRepository.create({ name, description });
 
   return response.status(201).json();
+});
+
+categoriesRoutes.get('/', (request, response) => {
+  const categories = categoriesRepository.listAll();
+
+  return response.status(201).json(categories);
 });
 
 export { categoriesRoutes };
