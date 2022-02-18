@@ -7,8 +7,18 @@ import {
 class CategoriesRepository implements ICategoriesRepository {
   private categories: Category[];
 
-  constructor() {
+  private static INSTANCE: CategoriesRepository;
+
+  private constructor() {
     this.categories = [];
+  }
+
+  public static getInstance(): CategoriesRepository {
+    if (!CategoriesRepository.INSTANCE) {
+      CategoriesRepository.INSTANCE = new CategoriesRepository();
+    }
+
+    return CategoriesRepository.INSTANCE;
   }
 
   create({ name, description }: ICreateCategoryDTO): void {
@@ -28,7 +38,7 @@ class CategoriesRepository implements ICategoriesRepository {
   }
 
   findCategoryByName(name: string): Category {
-    return this.categories.find(category => (category.name = name));
+    return this.categories.find(category => category.name === name);
   }
 }
 
