@@ -5,12 +5,10 @@ import { createCategoryController } from '../modules/cars/useCases/createCategor
 import { importCategoryController } from '../modules/cars/useCases/importCategory';
 import { listAllCategoriesController } from '../modules/cars/useCases/listAllCategories';
 
-import path from 'path';
-
 const categoriesRoutes = Router();
 
 const upload = multer({
-  dest: path.join('..', '..', 'tmp'),
+  dest: './tmp',
 });
 
 categoriesRoutes.post('/', (request, response) => {
