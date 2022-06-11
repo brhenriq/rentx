@@ -9,6 +9,8 @@ interface IUsersRepository {
     password,
   }: ICreateUserDTO): Promise<void>;
   listAll(): Promise<User[]>;
+  findUserByEmail(email: string): Promise<User>;
+  findUserByName(name: string): Promise<User>;
 }
 
 export { IUsersRepository };
