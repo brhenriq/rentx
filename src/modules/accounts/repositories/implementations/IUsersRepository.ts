@@ -7,7 +7,6 @@ interface IUsersRepository {
     driver_license,
     email,
     password,
-    username,
   }: ICreateUserDTO): Promise<void>;
   listAll(): Promise<User[]>;
 }

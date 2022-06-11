@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 class CreateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { driver_license, email, name, password, username } = request.body;
+    const { driver_license, email, name, password } = request.body;
 
     const createUserUseCase = container.resolve(CreateUserUseCase);
 
@@ -13,7 +13,6 @@ class CreateUserController {
       email,
       name,
       password,
-      username,
     });
 
     return response.status(201).json();
