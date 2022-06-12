@@ -1,25 +1,18 @@
-import { inject, injectable } from 'tsyringe';
-import { IUsersRepository } from '../../repositories/implementations/IUsersRepository';
+import { Request, Response } from 'express';
+import { container } from 'tsyringe';
+import { UpdateUserAvatarUseCase } from './updateUserAvatarUseCase';
 
-interface IRequest {
-  user_id: string;
-  avatarPath: string;
-}
+class UpdateUserAvatarController {
+  async handle(request: Request, response: Response): Promise<Response> {
+    const { filename } = request.file;
+    const { id } = request.user;
 
-@injectable()
-class UpdateUserAvatarUseCase {
-  constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
-  ) {}
+    const updateUserAvatarUseCase = container.resolve(UpdateUserAvatarUseCase);
 
-  async execute({ user_id, avatarPath }: IRequest): Promise<void> {
-    const user = await this.usersRepository.findUserById(user_id);
+    updateUserAvatarUseCase.execute({ user_id: id, avatarPath: filename });
 
-    user.avatar = avatarPath;
-
-    await this.usersRepository.create(user);
+    return response.status(204).json();
   }
 }
 
-export { UpdateUserAvatarUseCase };
+export { UpdateUserAvatarController };
