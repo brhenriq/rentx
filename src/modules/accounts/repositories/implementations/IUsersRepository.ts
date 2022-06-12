@@ -11,6 +11,7 @@ interface IUsersRepository {
   listAll(): Promise<User[]>;
   findUserByEmail(email: string): Promise<User>;
   findUserByName(name: string): Promise<User>;
+  findUserById(id: string): Promise<User>;
 }
 
 export { IUsersRepository };
