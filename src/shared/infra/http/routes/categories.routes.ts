@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
-import ensureAuthenticated from '@middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
 
 import { CreateCategoryController } from '@modules/cars/useCases/createCategory/createCategoryController';
 import { ImportCategoryController } from '@modules/cars/useCases/importCategory/ImportCategoryController';
