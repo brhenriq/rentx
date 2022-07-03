@@ -5,6 +5,7 @@ import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthentica
 import { CreateCategoryController } from '@modules/cars/useCases/createCategory/createCategoryController';
 import { ImportCategoryController } from '@modules/cars/useCases/importCategory/ImportCategoryController';
 import { ListAllCategoriesController } from '@modules/cars/useCases/listAllCategories/listAllCategoriesController';
+import { ensureAdmin } from '../middlewares/ensureAdmin';
 
 const categoriesRoutes = Router();
 
@@ -16,7 +17,12 @@ const createCategoryController = new CreateCategoryController();
 const importCategoryController = new ImportCategoryController();
 const listAllCategoriesController = new ListAllCategoriesController();
 
-categoriesRoutes.post('/', createCategoryController.handle);
+categoriesRoutes.post(
+  '/',
+  ensureAuthenticated,
+  ensureAdmin,
+  createCategoryController.handle,
+);
 
 categoriesRoutes.get(
   '/',
@@ -26,6 +32,8 @@ categoriesRoutes.get(
 
 categoriesRoutes.post(
   '/import',
+  ensureAuthenticated,
+  ensureAdmin,
   upload.single('file'),
   importCategoryController.handle,
 );
