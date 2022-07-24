@@ -41,7 +41,7 @@ describe('Authenticate User', () => {
         email: 'inexistent@user.com',
         password: '123456',
       }),
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(new AppError('Incorrect email/password'));
   });
 
   it('should not be able to authenticate an user with incorrect password', async () => {
@@ -59,6 +59,6 @@ describe('Authenticate User', () => {
         email: user.email,
         password: 'incorrectPassword',
       }),
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(new AppError('Incorrect email/password'));
   });
 });
