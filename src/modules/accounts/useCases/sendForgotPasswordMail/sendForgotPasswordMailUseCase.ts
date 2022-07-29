@@ -1,6 +1,7 @@
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository';
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository';
 import { IDateProvider } from '@shared/container/providers/DateProvider/IDateProvider';
+import { IMailProvider } from '@shared/container/providers/MailProvider/IMailProvider';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,9 +15,11 @@ class SendForgotPasswordMailUseCase {
     private usersTokensRepository: IUsersTokensRepository,
     @inject('DateProvider')
     private dateProvider: IDateProvider,
+    @inject('MailProvider')
+    private mailProvider: IMailProvider,
   ) {}
 
-  async execute(email: string) {
+  async execute(email: string): Promise<void> {
     const user = await this.usersRepository.findUserByEmail(email);
 
     if (!user) {
@@ -30,6 +33,12 @@ class SendForgotPasswordMailUseCase {
       user_id: user.id,
       expires_date: this.dateProvider.addHours(3),
     });
+
+    await this.mailProvider.sendMail(
+      email,
+      'Recuperação de senha',
+      `O link para reset é ${token}`,
+    );
   }
 }
 
