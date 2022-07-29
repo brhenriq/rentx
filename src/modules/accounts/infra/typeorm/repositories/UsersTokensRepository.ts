@@ -1,4 +1,4 @@
-import { ICreateUserTokenDTO } from '@modules/accounts/dtos/User';
+import { ICreateUserTokenDTO } from '@modules/accounts/dtos/UserTokens';
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository';
 import { getRepository, Repository } from 'typeorm';
 import { UserTokens } from '../entities/UserTokens';
@@ -11,12 +11,12 @@ class UsersTokensRepository implements IUsersTokensRepository {
   }
 
   async create({
-    expires_in,
+    expires_date,
     refresh_token,
     user_id,
   }: ICreateUserTokenDTO): Promise<UserTokens> {
     const userToken = this.repository.create({
-      expires_in,
+      expires_date,
       refresh_token,
       user_id,
     });
@@ -27,4 +27,4 @@ class UsersTokensRepository implements IUsersTokensRepository {
   }
 }
 
-export { IUsersTokensRepository };
+export { UsersTokensRepository };
